@@ -86,10 +86,10 @@ class Renderer():
 
             # Blend with background image if available
             if self.background_image is not None:
+                print("image shape:", image.shape)
+
                 # Resize background to match render dimensions
                 bg_image = self.background_image.permute(1, 2, 0).unsqueeze(0)  # Convert to shape [1, H, W, 3]
-
-                print("image shape:", image.shape)
 
                 # Expand soft_mask to match [1, H, W, 3]
                 soft_mask_expanded = mask.unsqueeze(-1).repeat(1, 1, 1, 3)  # Add channel dimension and repeat for RGB
