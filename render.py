@@ -87,9 +87,14 @@ class Renderer():
             # Blend with background image if available
             if self.background_image is not None:
                 # Resize background to match render dimensions
-                bg_image = self.background_image.unsqueeze(0)
-                soft_mask_expanded = soft_mask.unsqueeze(1)  # Add channel dimension
+                bg_image = self.background_image.permute(1, 2, 0).unsqueeze(0)  # Convert to shape [1, H, W, 3]
+
+                # Expand soft_mask to match [1, H, W, 3]
+                soft_mask_expanded = soft_mask.unsqueeze(-1).repeat(1, 1, 1, 3)  # Add channel dimension and repeat for RGB
+
+                # Blend the rendered image with the background image
                 image = image * soft_mask_expanded + bg_image * (1 - soft_mask_expanded)
+
 
             images.append(image)
 
