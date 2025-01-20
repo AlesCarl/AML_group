@@ -24,7 +24,7 @@ class Renderer():
         self.dim = dim
 
         # Load background image
-        if background_image:
+        if background_image is not None:
             bg_image = Image.open(background_image).convert('RGB')
             transform = transforms.Compose([
                 transforms.Resize(dim),
