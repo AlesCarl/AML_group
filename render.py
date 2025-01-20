@@ -81,7 +81,7 @@ class Renderer():
                 mask = mask.squeeze(-1)
                 background_idx = torch.where(mask == 0)
                 assert torch.all(image[background_idx] == torch.zeros(3).to(device))
-                background_mask[background_idx] = background#.repeat(background_idx[0].shape)
+                background_mask[background_idx] = background
                 image = torch.clamp(image + background_mask, 0., 1.)
 
             # Blend with background image if available
@@ -90,11 +90,14 @@ class Renderer():
                 bg_image = self.background_image.permute(1, 2, 0).unsqueeze(0)  # Convert to shape [1, H, W, 3]
 
                 # Expand soft_mask to match [1, H, W, 3]
-                soft_mask_expanded = soft_mask.unsqueeze(-1).repeat(1, 1, 1, 3)  # Add channel dimension and repeat for RGB
+                soft_mask_expanded = mask.unsqueeze(-1).repeat(1, 1, 1, 3)  # Add channel dimension and repeat for RGB
+
+                print("image shape:", image.shape)
+                print("bg_image shape:", bg_image.shape)
+                print("soft_mask_expanded shape:", soft_mask_expanded.shape)
 
                 # Blend the rendered image with the background image
                 image = image * soft_mask_expanded + bg_image * (1 - soft_mask_expanded)
-
 
             images.append(image)
 
