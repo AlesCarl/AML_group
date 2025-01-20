@@ -23,6 +23,8 @@ class Renderer():
         self.camera_projection = camera
         self.dim = dim
 
+        print("Background image path: ", background_image)
+
         # Load background image
         if background_image is not None:
             bg_image = Image.open(background_image).convert('RGB')
