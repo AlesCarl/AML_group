@@ -30,6 +30,8 @@ class Renderer():
                 transforms.Resize(dim),
                 transforms.ToTensor()
             ])
+            print("bg_image shape:", bg_image.size)
+            print("Background image size: ", self.background_image.size)
             self.background_image = transform(bg_image).to(device)
         else:
             self.background_image = None
