@@ -8,7 +8,7 @@ from PIL import Image
 import torchvision.transforms as transforms
 
 
-class Renderer():
+class Renderer:
 
     def __init__(self, mesh='sample.obj',
                  lights=torch.tensor([1.0, 1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0]),
@@ -33,8 +33,8 @@ class Renderer():
                 transforms.ToTensor()
             ])
             print("bg_image shape:", bg_image.size)
-            print("Background image size: ", self.background_image.size)
             self.background_image = transform(bg_image).to(device)
+            print("Background image size: ", self.background_image.size)
         else:
             self.background_image = None
 
