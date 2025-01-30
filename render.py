@@ -32,9 +32,7 @@ class Renderer:
                 transforms.Resize(dim),
                 transforms.ToTensor()
             ])
-            print("bg_image shape:", bg_image.size)
             self.background_image = transform(bg_image).to(device)
-            print("Background image size: ", self.background_image.size)
         else:
             self.background_image = None
 
@@ -90,8 +88,6 @@ class Renderer:
 
             # Blend with background image if available
             if self.background_image is not None:
-                print("image shape:", image.shape)
-
                 # Resize background to match render dimensions
                 bg_image = self.background_image.permute(1, 2, 0).unsqueeze(0)  # Convert to shape [1, H, W, 3]
 
