@@ -1,53 +1,47 @@
 # Affordance Highlighting project
 
+## Project Overview
 
-<!-- ### [[Project Page](https://threedle.github.io/3DHighlighter/)] [[ArXiv](https://arxiv.org/abs/2212.11263)] -->
-<a href="https://arxiv.org/abs/2212.11263"><img src="https://img.shields.io/badge/arXiv-3DHighlighter-b31b1b.svg" height=22.5></a>
-<a href="https://threedle.github.io/3DHighlighter"><img src="https://img.shields.io/website?down_color=lightgrey&down_message=offline&label=Project%20Page&up_color=lightgreen&up_message=online&url=https%3A%2F%2Fpals.ttic.edu%2Fp%2Fscore-jacobian-chaining" height=22.5></a>
+The **AML Group Project** focuses on highlighting given regions of 3D models given a prompt, using machine learning techniques. The primary implementation resides in `notebook.ipynb`, which contains the running code for executing the optimization loop, defining the loss function, and implementing the actual model used in the project. The main objective of the code is to highlight given regions in 3D models according to a specified prompt.
 
-![teaser](./media/teaser.png)
+### Key Components:
+- **refactor.ipynb**: The main execution file where the optimization process occurs. It includes:
+  - The **optimization loop**, which iteratively updates the model parameters.
+  - The **loss function**, used to guide the optimization.
+  - The **core model implementation**, responsible for processing and improving the 3D representation.
+  - **Three main parts of the project**:
+    1. **Running the optimization** on the given models.
+    2. **Passing from point cloud to mesh**, facilitating 3D structure generation.
+    3. **Importing the AffordanceNet dataset** for further processing and analysis.
+  - **Extension implementation**, which introduces additional augmentations in the processing pipeline.
+
+- **mesh.py**: Handles the logic for managing and manipulating 3D meshes, ensuring proper structuring and transformations of the model.
+
+- **render.py**: Responsible for rendering the 3D model, converting the optimized mesh into images. This rendering process is assisted by:
+  - **utils.py**, which provides various helper functions for supporting the rendering pipeline and enhancing efficiency.
+
+- **Normalization/**: Contains functions to normalize the rendered images according to **CLIP**. This normalization ensures that the images conform to expected input distributions, improving model performance and consistency.
+
+This structured approach enables efficient 3D model optimization, rendering, and normalization, ensuring high-quality outputs aligned with machine learning principles while specifically focusing on highlighting relevant regions in 3D models based on a given prompt.
+
+## Getting Started
+
+We suggest using colab for the execution of the notebook because of the high demand of computational resources. 
+
+All the necesary installations are executed in first cell of the notebook.
+
+Just open the `notebook.ipnyb` file in a jupyter environment and run all the cells.
+
+## Usage
+
+For the first part, the code simply runs the optimization loop with a specific object and prompt, defined in the first cell under the optimization loop.
+
+For the second part, we just left the definition of the needed functions without any cell ready to be executed.
+
+For the third part, there is the execution cell, where the model type and prompt are defined, right under the mIOU evaluation function.
+
+For the extension, the code resides at the bottom of the notebook, with an example with a model of scissors ready to be executed.
 
 
-## Installation
 
-Install and activate the conda environment with the following commands. 
-```
-conda env create --file 3DHighlighter.yml
-conda activate 3DHighlighter
-```
-Note: The installation will fail if run on something other than a CUDA GPU machine.
 
-#### System Requirements
-- Python 3.9
-- CUDA 11
-- 16 GB GPU
-
-## Run Examples
-Run the scripts below to get example localizations.
-```
-# hat on a candle
-./demo/run_candle_hat.sh
-# hat on a dog
-./demo/run_dog_hat.sh
-# shoes on a horse
-./demo/run_horse_shoes.sh
-```
-
-### Note on Reproducibility
-Due to small non-determinisms in CLIP's backward process and the sensitivity of our optimization, results can vary across different runs even when fully seeded. If the result of the optimization does not match the expected result, try re-running the optimization.
-
-## Tips for Troubleshooting New Mesh+Region Combinations:
-- Due to the sensitivity of the optimization process, if a mesh+prompt combination does not work on the first try, rerun the optimization with a new seed as it might just have found a bad local minimum.
-- If an initial specification of a region does not work well, try describing that region with more specific language (i.e. 'eyeglasses' instead of 'glasses'). Also, try using a different target localization text that might correspond to a similar region (i.e. using 'headphones' or 'earmuffs' instead of 'ears').
-- In our experiments, we found that using gray and highlighter colors and the prompt format of `"A 3D render of a gray [object] with highlighted [region]"` works best for most mesh+region combinations. However, we encourage users to edit the code to try different prompt specifications since different wordings might work better with new and different mesh+region combinations.
-- The traingulation of the mesh is important. Meshes containing long, skinny triangles and/or small numbers of vertices can lead to bad optimizations.
-
-## Citation
-```
-@article{decatur2022highlighter,
-    author = {Decatur, Dale and Lang, Itai and Hanocka, Rana},
-    title  = {3D Highlighter: Localizing Regions on 3D Shapes via Text Descriptions},
-    journal = {arXiv},
-    year = {2022}
-}
-```
